@@ -36,12 +36,12 @@ Par exemple, les 100 premières interactions protéine-protéine humaines dispon
 
 Numero de champ | Signification Biologique|
  --- | --- 
-1 | 
-2 |
-3 |
-4 |
-5 |
-6 |
+1 | partenaire A id
+2 | partenaire B id 
+3 | Alternative identifier for interactor A,
+4 | Alternative identifier for interactor B
+5 | Aliases for A
+6 | Aliases for B
 
 ##### Utiliser le PMID de la publication pour récuperer les lignes MITAB des interactions rapportées dans l'étude.
 Une librairie pratique pour manipuler des requêtes HTTP est [requests](https://requests.readthedocs.io/en/master/), eg:
@@ -60,6 +60,7 @@ ans = httpReq.text
 ##### Quelles techniques experimentales mesurent les interactions rapportées dans cette publication?
 
 ```
+psi-mi:"MI:0398"(two hybrid pooling approach)
 
 ```
 
@@ -113,18 +114,23 @@ print(f"Nombre total d'interactions {total}, EBV-EBV {len(EBV_EBV_mitab)}")
 
 ##### Que fait la fonction `mitabReader` ?
 ```
+Nettoyage  des "uniprotkb" + parsing
 ```
 
 ##### Après avoir réparé ce code veuillez
 - Extraire les lignes MITAB impliquant uniquement des protéines d'EBV, quel est leur nombre ?
 - Extraire les lignes MITAB impliquant des protéines humaines et des protéines d'EBV, quel est leur nombre ?
 ```
+Nombre total d'interactions 230, EBV-EBV 59 EBV-Human 171 
+
 ```
 
 ##### Combien de protéines humaines et virales sont respectivement dans les jeux d'interactions EBV-Human et EBV-EBV ?
 
 ```
-
+48 protéines virales (donc pas mal intéragissent avec elles-meme)
+129 prot humaines
+(calcul vite fait)
 ```
 
 ###### Pour la suite du travail assurez-vous d'avoir les deux jeux de données MITAB suivants
@@ -148,7 +154,8 @@ A l'aide des données MITAB et de la librarie [networkx](https://networkx.github
 ##### Décrivez brièvement ce réseau
 
 ```
-
+taille de la plus grande composante ?
+la plupart du temps on discute avec les noms de gènes en labels
 ```
 
 Les noms de gènes sont parfois plus parlants que des accesseurs UNIPROT. A l'aide du fichier `./data/Calderwood_EBV_proteome.xml`  créez une table de conversion entre accesseur UNIPROT et nom de gène.
